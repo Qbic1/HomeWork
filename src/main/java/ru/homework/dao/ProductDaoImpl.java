@@ -67,30 +67,34 @@ public class ProductDaoImpl implements ProductDao
         }
     }
 
-    public void update(Product product)
+    public int update(Product product)
     {
         try{
             PreparedStatement preparedStatement=connection.prepareStatement("UPDATE products SET cost=? WHERE name=?");
             preparedStatement.setString(2, product.getName());
             preparedStatement.setDouble(1, product.getCost());
             preparedStatement.executeUpdate();
+            return 1;
         }
         catch (SQLException e)
         {
             Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, e);
+            return 0;
         }
     }
 
-    public void delete(String name)
+    public int delete(String name)
     {
         try {
             PreparedStatement preparedStatement=connection.prepareStatement("DELETE FROM products WHERE name=?");
             preparedStatement.setString(1,name);
             preparedStatement.executeUpdate();
+            return 1;
         }
         catch (SQLException e)
         {
             Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, e);
+            return 0;
         }
     }
 

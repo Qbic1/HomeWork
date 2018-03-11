@@ -13,4 +13,24 @@
         <url-pattern>/products</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AppServlet</servlet-name>
+        <servlet-class>ru.homework.products.AppServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AppServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DatabaseServlet</servlet-name>
+        <servlet-class>ru.homework.products.DatabaseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DatabaseServlet</servlet-name>
+        <url-pattern>/database</url-pattern>
+    </servlet-mapping>
+
 </web-app>

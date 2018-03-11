@@ -9,7 +9,7 @@ public interface ProductDao
 {
     Product find(String name);
     int save(Product product);
-    void update(Product product);
-    void delete(String name);
+    int update(Product product);
+    int delete(String name);
     List<Product> findAll();
 }
