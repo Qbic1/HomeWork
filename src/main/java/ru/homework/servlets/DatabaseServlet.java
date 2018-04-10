@@ -1,7 +1,7 @@
 package ru.homework.servlets;
 
 import ru.homework.dao.ProductDao;
-import ru.homework.dao.ProductDaoImpl;
+import ru.homework.dao.ProductDaoJdbcTemplateImpl;
 import ru.homework.models.Product;
 import ru.homework.models.ProductImpl;
 
@@ -24,7 +24,7 @@ public class DatabaseServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ProductDao productDao = new ProductDaoImpl();
+        ProductDao productDao = new ProductDaoJdbcTemplateImpl(SignInServlet.dataSource);
 
         String name = request.getParameter("name");
         Double cost;
@@ -47,20 +47,20 @@ public class DatabaseServlet extends HttpServlet
                 break;
             case 'S':
                 product = new ProductImpl(name, cost);
-                if (productDao.find(name) == null && productDao.save(product) == 1)
+                if (productDao.find(name) == null)
                     response.getWriter().println("<h1>Product with name " + product.getName() + " and cost " + product.getCost() + " was saved.</h1>");
                 else
                     response.getWriter().println("<h1>Product with name " + product.getName() + " already exists.</h1>");
                 break;
             case 'U':
                 product = new ProductImpl(name, cost);
-                if (productDao.find(name) != null && productDao.update(product) == 1)
+                if (productDao.find(name) != null)
                     response.getWriter().println("<h1>Cost for product with name " + product.getName() + " was updated to " + product.getCost() + ".</h1>");
                 else
                     response.getWriter().println("<h1>Product with name " + product.getName() + " not exists.</h1>");
                 break;
             case 'D':
-                if (productDao.find(name) != null && productDao.delete(name) == 1)
+                if (productDao.find(name) != null)
                     response.getWriter().println("<h1>Product with name " + name + " was deleted.</h1>");
                 else
                     response.getWriter().println("<h1>Product with name " + name + " not exists.</h1>");

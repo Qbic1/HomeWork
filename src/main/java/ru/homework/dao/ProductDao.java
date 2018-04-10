@@ -8,11 +8,11 @@ public interface ProductDao
 {
     Product find(String name);
 
-    int save(Product product);
+    void save(Product product);
 
-    int update(Product product);
+    void update(Product product);
 
-    int delete(String name);
+    void delete(String name);
 
     List<Product> findAll();
 }

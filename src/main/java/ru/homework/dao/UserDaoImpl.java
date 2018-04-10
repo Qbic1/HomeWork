@@ -3,6 +3,7 @@ package ru.homework.dao;
 import org.mindrot.jbcrypt.BCrypt;
 import ru.homework.models.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +13,17 @@ import java.util.logging.Logger;
 public class UserDaoImpl implements UserDao
 {
     private Connection connection;
-    private String name = "postgres";
-    private String pass = "";
-    private String url = "jdbc:postgresql://localhost:5432/products";
 
-    public UserDaoImpl()
+    //language=SQL
+    private final String SQL_FIND = "SELECT * FROM client WHERE name=?";
+    private final String SQL_SAVE = "INSERT INTO client (name, hashed_password) VALUES (?,?)";
+    private final String SQL_FINDALL = "SELECT * FROM client";
+
+    public UserDaoImpl(DataSource dataSource)
     {
         try
         {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, name, pass);
+            connection = dataSource.getConnection();
         } catch (Exception e)
         {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);
@@ -34,7 +36,7 @@ public class UserDaoImpl implements UserDao
         try
         {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM client");
+            ResultSet resultSet = statement.executeQuery(SQL_FINDALL);
 
             String name;
             String password;
@@ -61,7 +63,7 @@ public class UserDaoImpl implements UserDao
     {
         try
         {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM client WHERE name=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND);
             preparedStatement.setString(1, name);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -84,8 +86,7 @@ public class UserDaoImpl implements UserDao
     {
         try
         {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO client (name, hashed_password) " +
-                    "VALUES (?,?);");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             preparedStatement.executeUpdate();

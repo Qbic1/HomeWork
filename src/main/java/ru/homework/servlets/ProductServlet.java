@@ -1,7 +1,7 @@
 package ru.homework.servlets;
 
 import ru.homework.dao.ProductDao;
-import ru.homework.dao.ProductDaoImpl;
+import ru.homework.dao.ProductDaoJdbcTemplateImpl;
 import ru.homework.models.Product;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class ProductServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ProductDao productDao = new ProductDaoImpl();
+        ProductDao productDao = new ProductDaoJdbcTemplateImpl(SignInServlet.dataSource);
         List<Product> products = productDao.findAll();
 
         request.setAttribute("productsFromServer", products);
