@@ -2,6 +2,7 @@ package ru.homework.servlets;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.homework.dao.UserDao;
+import ru.homework.dao.UserDaoHbmImpl;
 import ru.homework.dao.UserDaoImpl;
 
 import javax.servlet.ServletException;

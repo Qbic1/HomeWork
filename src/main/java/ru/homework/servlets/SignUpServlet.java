@@ -2,6 +2,7 @@ package ru.homework.servlets;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.homework.dao.UserDao;
+import ru.homework.dao.UserDaoHbmImpl;
 import ru.homework.dao.UserDaoImpl;
 import ru.homework.models.User;
 
@@ -18,7 +19,7 @@ import java.util.Properties;
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet
 {
-    private UserDao userDao = new UserDaoImpl(SignInServlet.dataSource);
+    private UserDao userDao = new UserDaoHbmImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
