@@ -8,7 +8,7 @@ public interface UserDao
 {
     boolean find(String name, String password);
 
-    int save(User user);
+    void save(User user);
 
     List<User> findAll();
 }

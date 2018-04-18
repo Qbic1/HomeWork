@@ -47,8 +47,7 @@ public class ProductDaoJdbcTemplateImpl implements ProductDao
         try
         {
             return template.queryForObject(SQL_FIND, productRowMapper, name);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new IllegalStateException();
         }

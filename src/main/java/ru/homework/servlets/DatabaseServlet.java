@@ -1,5 +1,9 @@
 package ru.homework.servlets;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.homework.components.IndependentProductDao;
+import ru.homework.config.AppConfig;
 import ru.homework.dao.ProductDao;
 import ru.homework.dao.ProductDaoJdbcTemplateImpl;
 import ru.homework.models.Product;
@@ -15,6 +19,15 @@ import java.io.IOException;
 @WebServlet("/database")
 public class DatabaseServlet extends HttpServlet
 {
+    IndependentProductDao productDao;
+
+    @Override
+    public void init() throws ServletException
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        productDao = context.getBean(IndependentProductDao.class);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -24,8 +37,6 @@ public class DatabaseServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ProductDao productDao = new ProductDaoJdbcTemplateImpl(SignInServlet.dataSource);
-
         String name = request.getParameter("name");
         Double cost;
         try

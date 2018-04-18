@@ -1,5 +1,6 @@
 package ru.homework.dao;
 
+import org.springframework.stereotype.Component;
 import ru.homework.models.Product;
 
 import java.util.List;

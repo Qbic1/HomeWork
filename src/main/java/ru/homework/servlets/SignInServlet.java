@@ -1,6 +1,10 @@
 package ru.homework.servlets;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import ru.homework.components.IndependedUserDao;
+import ru.homework.config.AppConfig;
 import ru.homework.dao.UserDao;
 import ru.homework.dao.UserDaoHbmImpl;
 import ru.homework.dao.UserDaoImpl;
@@ -16,32 +20,13 @@ import java.util.Properties;
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet
 {
-    private UserDao userDao;
-
-    public static DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    private IndependedUserDao userDao;
 
     @Override
     public void init() throws ServletException
     {
-        Properties properties = new Properties();
-
-        try
-        {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
-            String dbUrl = properties.getProperty("db.url");
-            String dbUsername = properties.getProperty("db.username");
-            String dbPassword = properties.getProperty("db.password");
-            String driverClassName = properties.getProperty("db.driverClassName");
-
-            dataSource.setUsername(dbUsername);
-            dataSource.setPassword(dbPassword);
-            dataSource.setUrl(dbUrl);
-            dataSource.setDriverClassName(driverClassName);
-
-            userDao = new UserDaoImpl(dataSource);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        userDao = context.getBean(IndependedUserDao.class);
     }
 
     @Override

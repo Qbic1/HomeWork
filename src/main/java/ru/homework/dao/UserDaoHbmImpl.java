@@ -6,7 +6,6 @@ import org.hibernate.cfg.Configuration;
 import org.mindrot.jbcrypt.BCrypt;
 import ru.homework.models.User;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 public class UserDaoHbmImpl implements UserDao
@@ -33,17 +32,16 @@ public class UserDaoHbmImpl implements UserDao
     public boolean find(String name, String password)
     {
         User user = session.createQuery("from User user where user.name = name and user.password = password", User.class).getSingleResult();
-        return user!=null ? true : false;
+        return user != null ? true : false;
     }
 
     @Override
-    public int save(User user)
+    public void save(User user)
     {
         session.beginTransaction();
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         session.save(user);
         session.getTransaction().commit();
-        return 1;
     }
 
     @Override

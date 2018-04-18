@@ -82,7 +82,7 @@ public class UserDaoImpl implements UserDao
     }
 
     @Override
-    public int save(User user)
+    public void save(User user)
     {
         try
         {
@@ -90,11 +90,9 @@ public class UserDaoImpl implements UserDao
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             preparedStatement.executeUpdate();
-            return 1;
         } catch (SQLException e)
         {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);
-            return 0;
         }
     }
 }
