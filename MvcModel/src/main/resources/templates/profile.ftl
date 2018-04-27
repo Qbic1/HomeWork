@@ -6,16 +6,16 @@
 </head>
 <body>
 <div class="form-style-2-heading">
-    <label>First name</label>
-${reader.firstName}
+    <label style="color: #985f0d; font-size: 20px">First name</label>
+    ${reader.firstName}
 </div>
 <div class="form-style-2-heading">
-    <label>Last name</label>
-${reader.lastName}
+    <label style="color: #985f0d; font-size: 20px">Last name</label>
+    ${reader.lastName}
 </div>
 <div class="form-style-2-heading">
-    <label>Age</label>
-${reader.age}
+    <label style="color: #985f0d; font-size: 20px">Age</label>
+    ${reader.age}
 </div>
 
 <table>
@@ -30,7 +30,7 @@ ${reader.age}
 </table>
 
 
-<form action="/profile" method="post">
+<form action="/" method="post">
 
     <label for="book">Book
         <select id="book" name="book">

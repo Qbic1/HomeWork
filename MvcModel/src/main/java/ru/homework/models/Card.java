@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -26,8 +27,8 @@ public class Card {
     @JoinColumn(name = "bookId")
     private Book book;
 
-    public Card(Reader reader, Book book) {
-        this.reader = reader;
+    public Card(Optional<Reader> reader, Book book) {
+        this.reader = reader.get();
         this.book = book;
     }
 }

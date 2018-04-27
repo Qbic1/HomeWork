@@ -12,6 +12,8 @@ import ru.homework.repositories.BooksRepository;
 import ru.homework.repositories.CardsRepository;
 import ru.homework.repositories.ReadersRepository;
 
+import java.util.Optional;
+
 
 @Controller
 public class CardsController {
@@ -50,7 +52,7 @@ public class CardsController {
         bookParts[1] = book.substring(book.lastIndexOf("\"") + 2);
         String bookTitle = bookParts[0];
         String bookAuthor = bookParts[1];
-        Card card = new Card(readersRepository.getByFirstNameAndLastName(readerFirstName, readerLastName),
+        Card card = new Card(Optional.of(readersRepository.getByFirstNameAndLastName(readerFirstName, readerLastName)),
                 booksRepository.getByTitleAndAuthor(bookTitle, bookAuthor));
         repository.save(card);
         return "redirect:/cards";
