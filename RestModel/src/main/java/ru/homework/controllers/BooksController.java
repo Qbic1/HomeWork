@@ -1,40 +1,33 @@
 package ru.homework.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.homework.forms.BookForm;
-import ru.homework.models.Book;
-import ru.homework.repositories.BooksRepository;
+import ru.homework.services.BooksService;
+import ru.homework.transfer.BookDto;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-@Controller
+@RestController
 public class BooksController {
     @Autowired
-    BooksRepository repository;
+    BooksService booksService;
 
     @GetMapping("/books")
-    public String getBooksPage(ModelMap model, @RequestParam(required = false, name = "authorForSearch") String author) {
+    public List<BookDto> getBooksPage(@RequestParam(required = false, name = "authorForSearch") String author, HttpServletRequest request)
+    {
+        request.setAttribute("authorList", booksService.findAllAuthors());
         if (author != null && !author.equals("All"))
-            model.addAttribute("booksFromServer", repository.findAllByAuthor(author));
+            return BookDto.from(booksService.findAllByAuthor(author));
         else
-            model.addAttribute("booksFromServer", repository.findAll());
-        model.addAttribute("authorList", repository.findAll());
-        return "books";
+            return BookDto.from(booksService.findAll());
     }
 
     @PostMapping("/books")
-    public String AddBook(@Valid BookForm bookForm, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            Book book = Book.from(bookForm);
-            repository.save(book);
-        }
-
-        return "redirect:/books";
+    public ResponseEntity<Object> AddBook(@RequestBody BookForm bookForm) {
+        booksService.addBook(bookForm);
+        return ResponseEntity.ok().build();
     }
 }

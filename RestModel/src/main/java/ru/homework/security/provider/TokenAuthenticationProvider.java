@@ -14,7 +14,7 @@ import ru.homework.security.token.TokenAuthentication;
 import java.util.Optional;
 
 @Component
-public class TokenAuthenticationProvider implements AuthenticationProvider{
+public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private TokensRepository tokensRepository;
@@ -24,7 +24,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider{
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        TokenAuthentication tokenAuthentication = (TokenAuthentication)authentication;
+        TokenAuthentication tokenAuthentication = (TokenAuthentication) authentication;
 
         Optional<Token> tokenCandidate = tokensRepository.findOneByValue(tokenAuthentication.getName());
 

@@ -14,6 +14,9 @@ public interface BooksRepository extends JpaRepository<Book, Long> {
 
     Book getByTitleAndAuthor(String title, String author);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM book WHERE id IN (SELECT book_id FROM card INNER JOIN reader ON (card.reader_id=reader.id) WHERE login=?1);")
-    List<Book> findBooksByLogin(String login);
+    @Query(nativeQuery = true, value = "SELECT * FROM book WHERE id IN (SELECT book_id FROM card INNER JOIN reader ON (card.reader_id=reader.id) WHERE first_name=?1 AND last_name=?2);")
+    List<Book> findBooksByReaderName(String firstName, String lastName);
+
+    @Query(nativeQuery = true, value = "SELECT author FROM book")
+    List<String> findAllAuthors();
 }

@@ -11,6 +11,7 @@ import ru.homework.models.State;
 import ru.homework.repositories.ReadersRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -45,5 +46,15 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<Reader> findAll() {
         return readersRepository.findAll();
+    }
+
+    @Override
+    public Optional<Reader> findOneByLogin(String login) {
+        return readersRepository.findOneByLogin(login);
+    }
+
+    @Override
+    public Reader getByFirstNameAndLastName(String firstName, String lastName) {
+        return readersRepository.getByFirstNameAndLastName(firstName, lastName);
     }
 }

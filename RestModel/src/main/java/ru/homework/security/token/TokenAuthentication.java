@@ -9,8 +9,9 @@ import java.util.Collection;
 public class TokenAuthentication implements Authentication {
 
     private String token;
-    private Boolean isAuthenticated;
+    private boolean isAuthenticated;
     private UserDetails userDetails;
+
 
     public TokenAuthentication(String token) {
         this.token = token;
@@ -21,7 +22,6 @@ public class TokenAuthentication implements Authentication {
     }
 
     @Override
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userDetails.getAuthorities();
     }
@@ -29,11 +29,6 @@ public class TokenAuthentication implements Authentication {
     @Override
     public Object getCredentials() {
         return null;
-    }
-
-    @Override
-    public String getName() {
-        return token;
     }
 
     @Override
@@ -53,6 +48,11 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.isAuthenticated = isAuthenticated;
+        this.isAuthenticated  = isAuthenticated;
+    }
+
+    @Override
+    public String getName() {
+        return token;
     }
 }
